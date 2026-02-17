@@ -1,0 +1,790 @@
+:root {
+    --curtain-red: #8a1212;
+    --stage-dark: #121212; /* Fundo preto/cinza muito escuro */
+    --text-white: #ffffff;
+    --text-off-white: #e0e0e0;
+    
+    /* Cores Divertida Mente (Versão Neon) */
+    --joy: #ffd700;
+    --sadness: #00bfff;
+    --anger: #ff4500;
+    --disgust: #32cd32;
+    --fear: #ba55d3;
+}
+
+body {
+    margin: 0;
+    background-color: #000;
+    font-family: 'Patrick Hand', cursive;
+    color: var(--text-white); /* Texto Global Branco */
+    overflow-x: hidden;
+}
+
+/* --- Cortinas --- */
+.curtain-left, .curtain-right {
+    position: fixed;
+    top: 0;
+    width: 15vw;
+    height: 100vh;
+    background: var(--curtain-red);
+    z-index: 100;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+    transition: transform 1.5s ease-out;
+}
+.curtain-left { left: 0; }
+.curtain-right { right: 0; }
+.stage-top {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 60px;
+    background: #500;
+    z-index: 101;
+    box-shadow: 0 5px 20px black;
+    border-radius: 0 0 50% 50% / 0 0 20px 20px;
+}
+
+/* Abertura das cortinas */
+body.loaded .curtain-left { transform: translateX(-90%); }
+body.loaded .curtain-right { transform: translateX(90%); }
+
+/* --- Palco Escuro (Dark Mode) --- */
+.stage-floor {
+    /* Gradiente que simula um palco iluminado no centro e escuro nas bordas */
+    background: radial-gradient(circle at 50% 30%, #2a2a2a 0%, #000000 90%);
+    min-height: 100vh;
+    padding: 100px 10%;
+    position: relative;
+}
+
+/* Manchas de Luz (Glow) em vez de aquarela fosca */
+.glow-effect {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    opacity: 0.4;
+}
+.yellow { width: 300px; height: 300px; background: var(--joy); top: 10%; left: 20%; mix-blend-mode: screen; }
+.blue { width: 300px; height: 300px; background: var(--sadness); top: 20%; right: 20%; mix-blend-mode: screen; }
+
+/* --- Tipografia e Hero --- */
+.neon-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 5rem;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 10px var(--joy), 0 0 20px var(--joy), 0 0 40px var(--anger);
+    margin-bottom: 0;
+}
+
+.handwritten-light {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--text-off-white);
+    text-shadow: 2px 2px 4px #000;
+}
+
+.hero-prop { text-align: center; margin-top: 40px; position: relative; z-index: 2; }
+.highlight-text { font-size: 1.5rem; color: #fff; }
+
+.ticket-btn {
+    display: inline-block;
+    background: transparent;
+    color: var(--joy);
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    text-decoration: none;
+    border: 2px solid var(--joy);
+    border-radius: 50px;
+    box-shadow: 0 0 15px var(--joy);
+    transition: 0.3s;
+    margin-top: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.ticket-btn:hover { background: var(--joy); color: #000; box-shadow: 0 0 30px var(--joy); }
+
+/* --- Cartão Estilo Quadro Negro (Chalkboard) --- */
+.chalkboard-paper {
+    background: #1e1e1e; /* Cinza bem escuro */
+    border: 4px solid #444;
+    padding: 40px;
+    max-width: 600px;
+    margin: 80px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    transform: rotate(1deg);
+    position: relative;
+    color: #fff;
+}
+.chalkboard-paper::before {
+    content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 30px; background: rgba(255,255,255,0.2); /* Fita adesiva fosca */
+}
+
+/* --- Esferas de Memória (Brilhantes) --- */
+/* --- Esferas de Memória (Neon Individual) --- */
+.memory-rack {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 60px;
+}
+
+.memory-orb {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    
+    /* Base Escura Transparente */
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(5px);
+    
+    /* Borda inicial suave */
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    position: relative;
+}
+
+.memory-orb p {
+    color: #eee; /* Texto descritivo branco */
+    font-size: 0.95rem;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+/* --- Cores Específicas para Cada Emoção --- */
+
+/* 1. ALEGRIA (Amarelo) */
+.joy {
+    border-color: #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2);
+}
+.joy span { color: #FFD700; text-shadow: 0 0 10px #FFD700; }
+.joy:hover {
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.4);
+    transform: scale(1.1) translateY(-10px);
+}
+
+/* 2. TRISTEZA/EMPATIA (Azul) */
+.sadness {
+    border-color: #00BFFF;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.4), inset 0 0 10px rgba(0, 191, 255, 0.2);
+}
+.sadness span { color: #00BFFF; text-shadow: 0 0 10px #00BFFF; }
+.sadness:hover {
+    box-shadow: 0 0 50px rgba(0, 191, 255, 0.8), inset 0 0 20px rgba(0, 191, 255, 0.4);
+    transform: scale(1.1) translateY(-10px);
+}
+
+/* 3. RAIVA/EXPRESSÃO (Vermelho) */
+.anger {
+    border-color: #FF4500;
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.4), inset 0 0 10px rgba(255, 69, 0, 0.2);
+}
+.anger span { color: #FF4500; text-shadow: 0 0 10px #FF4500; }
+.anger:hover {
+    box-shadow: 0 0 50px rgba(255, 69, 0, 0.8), inset 0 0 20px rgba(255, 69, 0, 0.4);
+    transform: scale(1.1) translateY(-10px);
+}
+
+/* 4. NOJINHO/CRIATIVIDADE (Verde) */
+.disgust {
+    border-color: #32CD32;
+    box-shadow: 0 0 20px rgba(50, 205, 50, 0.4), inset 0 0 10px rgba(50, 205, 50, 0.2);
+}
+.disgust span { color: #32CD32; text-shadow: 0 0 10px #32CD32; }
+.disgust:hover {
+    box-shadow: 0 0 50px rgba(50, 205, 50, 0.8), inset 0 0 20px rgba(50, 205, 50, 0.4);
+    transform: scale(1.1) translateY(-10px);
+}
+
+/* 5. MEDO/CONFIANÇA (Roxo - Opcional se quiser adicionar mais um) */
+.fear {
+    border-color: #BA55D3;
+    box-shadow: 0 0 20px rgba(186, 85, 211, 0.4), inset 0 0 10px rgba(186, 85, 211, 0.2);
+}
+.fear span { color: #BA55D3; text-shadow: 0 0 10px #BA55D3; }
+.fear:hover {
+    box-shadow: 0 0 50px rgba(186, 85, 211, 0.8), inset 0 0 20px rgba(186, 85, 211, 0.4);
+    transform: scale(1.1) translateY(-10px);
+}
+
+.memory-orb span { 
+    font-family: 'Fredoka One', cursive; 
+    font-size: 1.6rem; 
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+/* --- Listas e Footer --- */
+.dark-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 50px auto;
+    max-width: 700px;
+    border: 1px dashed rgba(255,255,255,0.3);
+}
+
+.chalk-list { list-style: none; padding: 0; font-size: 1.3rem; }
+.chalk-list li { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+
+.grand-finale {
+    text-align: center; margin-top: 80px; padding: 40px;
+    border-top: 1px solid #333;
+    color: #888;
+}
+/* --- Ato 1: Quem Sou Eu (Estilos Atualizados) --- */
+
+.scene-title.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Container Flex para Foto e Texto lado a lado */
+.about-container {
+    display: flex;
+    flex-direction: column; /* Empilha em telas pequenas */
+    align-items: center;
+    gap: 30px;
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+/* Em telas maiores, coloca lado a lado */
+@media (min-width: 768px) {
+    .about-container {
+        flex-direction: row;
+        align-items: flex-start; /* Alinha ao topo */
+        justify-content: center;
+    }
+}
+
+/* --- Bloco da Foto --- */
+.about-photo-block {
+    position: relative;
+    z-index: 1;
+}
+
+/* Moldura Estilo Polaroid/Foto Instantânea */
+.photo-frame {
+    background-color: #fff; /* Cor do papel da foto */
+    padding: 10px 10px 25px 10px; /* Espaço maior embaixo para o estilo polaroid */
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5); /* Sombra para profundidade */
+    transform: rotate(-3deg); /* Leve inclinação para charme */
+    transition: transform 0.3s ease;
+}
+
+.photo-frame:hover {
+    transform: rotate(0deg) scale(1.02); /* Efeito ao passar o mouse */
+}
+
+/* A Imagem em si */
+.about-photo {
+    display: block;
+    max-width: 250px; /* Tamanho máximo da foto */
+    height: auto;
+    border: 1px solid #ddd; /* Borda fina ao redor da imagem impressa */
+}
+
+/* Fita Adesiva para a Foto */
+.tape-sticker-photo {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(5deg);
+    width: 80px;
+    height: 25px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+/* Ajuste para o bloco de texto */
+.chalkboard-paper {
+    margin-top: 0; /* Remove a margem superior antiga para alinhar com a foto */
+    flex: 1; /* Ocupa o espaço restante */
+    max-width: 600px;
+}
+
+/* --- Nova Seção: Galeria de Memórias --- */
+
+.gallery-scene {
+    padding: 0 5%;
+    margin-bottom: 100px;
+}
+
+.polaroid-rack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.polaroid-item {
+    background: #fff;
+    padding: 15px 15px 40px 15px; /* Borda branca grossa embaixo */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    position: relative;
+    max-width: 100%;
+}
+
+.polaroid-item:hover {
+    transform: scale(1.05) rotate(0deg) !important; /* Fica reto e cresce ao passar o mouse */
+    z-index: 10;
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2); /* Brilho ao focar */
+}
+
+.polaroid-inner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #eee;
+    filter: sepia(20%); /* Filtro leve para dar ar de memória */
+}
+
+.polaroid-inner .caption {
+    font-family: 'Patrick Hand', cursive;
+    color: #333;
+    font-size: 1.5rem;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* --- Estilos Individuais para Bagunçar as Fotos --- */
+
+/* Foto do Palco (Grande) */
+.big-moment {
+    width: 400px;
+    transform: rotate(-3deg);
+}
+
+/* Foto da Cena (Média) */
+.fun-moment {
+    width: 300px;
+    transform: rotate(4deg);
+    margin-top: 30px; /* Desalinha verticalmente para parecer natural */
+}
+
+/* Fita Adesiva nos cantos */
+.tape-corner {
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background: rgba(255,255,255,0.3);
+    top: -10px;
+    left: 35%;
+    transform: rotate(-2deg);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    backdrop-filter: blur(2px);
+}
+
+/* Responsividade para Celular */
+@media (max-width: 768px) {
+    .polaroid-rack {
+        flex-direction: column;
+    }
+    .big-moment, .fun-moment {
+        width: 90%; /* Ocupa a largura da tela no celular */
+        transform: rotate(0deg); /* Remove rotação no mobile para caber melhor */
+        margin: 0;
+    }
+    .tape-corner {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* --- MENU DE NAVEGAÇÃO --- */
+
+.theater-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2000; /* Fica acima das cortinas e do palco */
+    
+    /* Gradiente suave para escurecer o topo sem bloquear a visão */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    backdrop-filter: blur(2px); /* Desfoque leve atrás do menu */
+    box-sizing: border-box;
+}
+
+.nav-logo {
+    font-family: 'Fredoka One', cursive;
+    color: #fff;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+.nav-logo span {
+    color: var(--joy, #FFD700); /* Usa o amarelo da alegria */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #e0e0e0;
+    font-family: 'Amatic SC', cursive; /* Fonte artística/manuscrita */
+    font-size: 1.8rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Efeito Hover nos Links (Brilho Neon) */
+.nav-links a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--joy, #FFD700);
+}
+
+/* Linha sublinhada animada */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--joy, #FFD700);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px var(--joy, #FFD700);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Responsividade do Menu para Celular */
+@media (max-width: 768px) {
+    .theater-nav {
+        flex-direction: column;
+        padding: 10px;
+        background: rgba(0,0,0,0.95); /* Fundo sólido no celular */
+    }
+
+    .nav-logo {
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links a {
+        font-size: 1.4rem;
+    }
+}
+
+/* --- Seção de Realização (Estilo Painel de Controle) --- */
+
+.production-scene {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.neon-subtitle {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #BA55D3, 0 0 20px #8A2BE2; /* Brilho Roxo Tech */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.control-panel {
+    display: inline-block;
+    background: #1a1a2e; /* Azul/Roxo muito escuro */
+    padding: 20px 20px 10px 20px;
+    border-radius: 15px;
+    border: 3px solid #4B0082; /* Borda Índigo */
+    box-shadow: 0 0 30px rgba(75, 0, 130, 0.5); /* Sombra brilhante */
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.control-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 50px rgba(138, 43, 226, 0.7);
+}
+
+/* A Tela do Monitor onde fica o Logo */
+.screen-monitor {
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #333;
+    /* Tamanho do Logo */
+    width: 280px; 
+    height: auto;
+}
+
+.partner-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Efeito de reflexo no vidro da tela */
+.screen-glare {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, transparent 100%);
+    pointer-events: none;
+}
+
+/* Luzes do Painel (Decorativo) */
+.panel-lights {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.light {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #333;
+    box-shadow: 0 0 5px currentColor;
+    animation: blink 2s infinite alternate;
+}
+
+.light.red { background-color: #ff5f56; animation-delay: 0s; }
+.light.yellow { background-color: #ffbd2e; animation-delay: 0.5s; }
+.light.green { background-color: #27c93f; animation-delay: 1s; }
+
+@keyframes blink {
+    0% { opacity: 0.5; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .screen-monitor {
+        width: 100%; /* Adapta à largura do celular */
+        max-width: 280px;
+    }
+}
+
+.footer {
+  padding: 40px 0;
+  background: #000;
+}
+.footer__inner { display: grid; gap: 24px; }
+.footer__brand img {
+  width: 44px; height: 44px; object-fit: contain;
+}
+.footer__links { display: flex; gap: 12px; flex-wrap: wrap; }
+.footer__links a {
+  font-size: 13px; padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  transition: background 0.2s;
+}
+.footer__links a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.footer__fine {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  font-size: 12px; color: var(--muted2); padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* --- Destaques Elegantes para o Texto --- */
+
+/* Destaque Dourado (Identidade/Alegria) */
+.highlight-gold {
+    color: #FFD700; /* Amarelo Ouro */
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); /* Brilho suave */
+    border-bottom: 2px solid rgba(255, 215, 0, 0.5); /* Sublinhado fino */
+}
+
+/* Destaque Azul (Profissão/Seriedade) */
+.highlight-blue {
+    color: #00BFFF; /* Azul Cyan */
+    font-weight: bold;
+    background: rgba(0, 191, 255, 0.1); /* Fundo muito sutil */
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Destaque Clean (Formação Acadêmica) */
+.highlight-clean {
+    color: #fff;
+    font-style: italic;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+/* Destaque Mágico (O Grande Objetivo) */
+.highlight-magic {
+    color: var(--disgust); /* Roxo Orquídea */
+    font-family: 'Fredoka One', cursive; /* Fonte do título para destaque */
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(85, 211, 102, 0.6);
+    font-size: 1.1em; /* Levemente maior */
+}
+
+/* Ajuste fino nos parágrafos para respirar melhor */
+.chalkboard-paper p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* --- Destaque Memória/Infância (Lúdico) --- */
+.highlight-memory {
+    color: var(--anger); /* Laranja Coral Pastel (Quente e Nostálgico) */
+    font-weight: bold;
+    /* Sublinhado ondulado para parecer desenho de criança ou caderno */
+    text-decoration: underline wavy var(--anger); 
+    text-underline-offset: 4px; /* Afasta o sublinhado do texto para ficar limpo */
+    transition: all 0.3s ease;
+}
+
+/* Efeito ao passar o mouse: a linha fica mais forte */
+.highlight-memory:hover {
+    color: var(--anger);
+    text-decoration-color: var(--curtain-red);
+}
+
+/* --- PLAYER DE MÚSICA (Estilo Painel de Controle) --- */
+
+.music-player-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8); /* Fundo escuro */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 4px solid var(--joy, #FFD700); /* Detalhe Amarelo Neon */
+    backdrop-filter: blur(10px);
+    border-radius: 50px; /* Formato de pílula */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 3000; /* Fica acima de tudo */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.music-player-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 30px rgba(255, 215, 0, 0.3);
+}
+
+/* O Disco Giratório */
+.player-disk {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #333, #000);
+    border-radius: 50%;
+    border: 2px solid #555;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: spin 3s linear infinite;
+    animation-play-state: paused; /* Começa parado */
+}
+
+.disk-center {
+    width: 12px;
+    height: 12px;
+    background: var(--joy, #FFD700);
+    border-radius: 50%;
+    border: 2px solid #000;
+}
+
+/* Animação de girar */
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* Quando estiver tocando, adicionamos essa classe via JS */
+.player-disk.playing {
+    animation-play-state: running;
+    border-color: var(--joy, #FFD700);
+}
+
+/* Informações e Botões */
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#music-title {
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+.player-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.player-controls button {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.player-controls button:hover {
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+}
+
+.play-main {
+    color: var(--joy, #FFD700) !important;
+    font-size: 1.1rem !important;
+}
+
+/* Responsivo (Celular) */
+@media (max-width: 768px) {
+    .music-player-container {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 15px;
+    }
+}
