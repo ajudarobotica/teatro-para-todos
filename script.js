@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // LISTA DE MÚSICAS (Adicione seus arquivos aqui)
     const songs = [
-        { title: "Somos Estrelas", src: "assets/audio/musical.mp3" },
+        { title: "Somos Estrelas", src: "assets/audio/musical.MP3" },
     ];
 
     let songIndex = 0;
@@ -119,3 +119,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Carregar a primeira música ao iniciar (sem tocar)
     loadSong(songs[songIndex]);
 });
+
