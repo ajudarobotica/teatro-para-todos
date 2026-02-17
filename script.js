@@ -118,24 +118,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Carregar a primeira música ao iniciar (sem tocar)
     loadSong(songs[songIndex]);
-})
-
-document.addEventListener("mousemove", (e) => {
-    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-
-    // Move as manchas de luz (Glow) de forma sutil
-    const glows = document.querySelectorAll('.glow-effect');
-    glows.forEach(glow => {
-        glow.style.transform = `translate(${moveX * 2}px, ${moveY * 2}px)`;
-    });
-
-    // Move as cortinas levemente para os lados ao mover o mouse
-    const curtainLeft = document.querySelector('.curtain-left');
-    const curtainRight = document.querySelector('.curtain-right');
-    
-    if (document.body.classList.contains('loaded')) {
-        curtainLeft.style.transform = `translateX(calc(-90% + ${moveX}px))`;
-        curtainRight.style.transform = `translateX(calc(90% + ${moveX}px))`;
-    }
 });
